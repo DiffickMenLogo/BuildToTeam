@@ -1,37 +1,51 @@
 import React, { useCallback } from 'react';
-import Menu from './components/Menu';
+import NavBar from './components/NavBar';
+import ReactDOM from 'react-dom/client';
 import './styles/App.scss';
 import 'normalize.css';
-import axios from 'axios';
-import Cars from './components/Cars';
-import { Icars } from './interfaces/Icars';
 import { CarsContext } from './context/carsContext';
+import axios from 'axios';
+import { Icars, IwinnersProps } from './interfaces/Icars';
+
+import {
+    BrowserRouter,
+    Routes,
+    Route,
+  } from "react-router-dom";
+  import MainRouter from './MainRouter';
 
 function App() {
-  const [cars, setCars] = React.useState<Icars[]>([
-    {name: 'Car 1', id: 1, color: 'red'},
-    {name: 'Car 2', id: 2, color: 'blue'},
-    {name: 'Car 3', id: 3, color: 'green'},
-  ]);
+    const [cars, setCars] = React.useState<Icars[]>([]);
+    const [selectedCar, setSelectedCar] = React.useState<Icars | null>(null);
+    const [winnersCars, setWinnersCars] = React.useState<IwinnersProps[]>([]);
+  
+    const getWinnersCars = useCallback(async() => {
+      const response = await axios.get('http://localhost:3000/winners');
+      if(JSON.stringify(response.data) !== JSON.stringify(cars)) {
+        setWinnersCars(response.data);
+        console.log(response.data);
+      }
+    }, [winnersCars]);
+    const getCars = useCallback(async() => {
+      const response = await axios.get('http://127.0.0.1:3000/garage');
+      if(JSON.stringify(response.data) !== JSON.stringify(cars)) {
+        setCars(response.data);
+      }
+    } , [cars]);
+  
+    React.useEffect(() => {
+      getCars();
+      getWinnersCars();
+    }, [cars]);
 
-  const getCars = useCallback(async() => {
-    const response = await axios.get('http://127.0.0.1:3000/garage');
-    console.log(response.data);
-    setCars(response.data);
-  } , []);
-
-  React.useEffect(() => {
-    getCars();
-  }, []);
-
-
-  return (
-    <CarsContext.Provider value={{cars}}>
-    <div className="App">
-      <Cars />
-    </div>
-    </CarsContext.Provider>
-  );
+    return (
+        <CarsContext.Provider value={{cars, setCars, selectedCar, setSelectedCar, winnersCars, setWinnersCars}}>
+            <BrowserRouter>
+                <NavBar />
+                <MainRouter />
+            </BrowserRouter>
+        </CarsContext.Provider>
+    );
 }
 
 export default App;

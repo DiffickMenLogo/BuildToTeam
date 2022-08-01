@@ -1,3 +1,15 @@
 .garage{
     margin-left: 15px;
 }
+.garage__pagination{
+    padding: 50px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+.garage__pagination__button{
+    width: 100px;
+    height: 30px;
+    border: 1px solid #000;
+    cursor: pointer;
+}

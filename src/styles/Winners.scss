@@ -1,0 +1,15 @@
+#root{
+    background-color: antiquewhite;
+}
+.winners{
+    padding-left: 15px;
+    background-color: antiquewhite;
+    height: 90vh;
+}
+.winners-top{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    background-color: azure;
+    width: fit-content;
+}

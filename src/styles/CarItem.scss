@@ -61,23 +61,39 @@
         height: 25px;
         border: 1px solid black;
         border-radius: 10px;
-        background-color: blueviolet;
+        background-color: gray;
         margin-bottom: 10px;
         display: flex;
         justify-content: center;
         align-items: center;
-        cursor: pointer;
+        color: rgb(94, 92, 92);
     }
     .car{
-        align-self: flex-end;
+        display: flex;
+        align-items: flex-end;
         width: 100px;
         height: 50px;
         background-color: blanchedalmond;
-        fill: red;
+        position: relative;
     }
     .end-line{
-        position: relative;
-        left: 500px;
+        position: absolute;
+        left: calc(100% - 150px);
         align-self: flex-end;
+    }
+
+    .animate{
+        position: relative;
+        animation: move 2s linear;
+        
+    }
+
+    @keyframes move{
+        0%{
+            left: 0;
+        }
+        100%{
+            left: calc(96% - 150px);
+        }
     }
 }
